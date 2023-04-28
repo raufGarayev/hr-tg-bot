@@ -25,7 +25,7 @@ function calculateSums(totalDays) {
     
     return {years, months, days}
   }
-bot.command('mezuniyyet', async (ctx) => {
+  bot.command('mezuniyyet', async (ctx) => {
     const chatId = ctx.message.chat.id;
     const message = 'İşə başlama tarixini qeyd edin';
   
@@ -56,13 +56,15 @@ bot.command('mezuniyyet', async (ctx) => {
         state[chatId].used = ctx.message.text;
         const date1 = new Date(state[chatId].end.split('-').reverse().join('-'));
         const date2 = new Date(state[chatId].start.split('-').reverse().join('-'));
-
+  
         const timeDiff = date1.getTime() - date2.getTime();
         const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
         const message = `Nəticə:\n\nDiff: ${dayDiff} or ${calculateSums(dayDiff).years} il ${calculateSums(dayDiff).months} ay ${calculateSums(dayDiff).days} gün\n1 günə düşən miqdar: ${(dayDiff / 365).toFixed(2)}\nMəzuniyyət günlərinin sayı: ${(((dayDiff / 365) * state[chatId].days) - state[chatId].used).toFixed(2)}`;
   
         await ctx.reply(message);
   
+        // Remove the event listener once all inputs are collected
+        bot.off('text');
       }
     });
   });
