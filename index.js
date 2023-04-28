@@ -2,7 +2,6 @@ const express = require('express')
 const expressApp = express()
 const axios = require("axios");
 const path = require("path")
-const port = process.env.PORT || 3000;
 const moment = require('moment')
 expressApp.use(express.static('static'))
 expressApp.use(express.json());
@@ -59,9 +58,9 @@ function calculateSums(totalDays) {
   
         const timeDiff = date1.getTime() - date2.getTime();
         const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        const message = `Nəticə:\n\nDiff: ${dayDiff} or ${calculateSums(dayDiff).years} il ${calculateSums(dayDiff).months} ay ${calculateSums(dayDiff).days} gün\n1 günə düşən miqdar: ${(dayDiff / 365).toFixed(2)}\nMəzuniyyət günlərinin sayı: ${(((dayDiff / 365) * state[chatId].days) - state[chatId].used).toFixed(2)}`;
+        const message = `Nəticə:\n\nİşlədiyi gün sayı: <b>${dayDiff}</b> vəya <b>${calculateSums(dayDiff).years} il ${calculateSums(dayDiff).months} ay ${calculateSums(dayDiff).days} gün</b>\n1 günə düşən miqdar: <b>${(dayDiff / 365).toFixed(2)}</b>\nMəzuniyyət günlərinin sayı: <b>${(((dayDiff / 365) * state[chatId].days) - state[chatId].used).toFixed(2)}</b>`;
   
-        await ctx.reply(message);
+        await ctx.replyWithHTML(message);
   
         // Remove the event listener once all inputs are collected
         bot.off('text');
